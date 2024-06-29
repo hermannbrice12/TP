@@ -1,0 +1,21 @@
+# Utiliser l'image officielle Nginx basée sur Alpine
+FROM nginx:alpine
+
+# Définir le répertoire de travail
+WORKDIR /usr/share/nginx/html
+
+# Installer Git
+RUN apk update && apk add --no-cache git
+
+# Cloner le dépôt GitHub dans un répertoire temporaire
+RUN git clone https://github.com/hermannbrice12/Docker.git /tmp/Docker
+
+# Déplacer le fichier index.html (s'il existe) dans le répertoire de travail Nginx
+RUN mv /tmp/Docker/index.html /usr/share/nginx/html/
+
+# Nettoyer les fichiers temporaires
+RUN rm -rf /tmp/Docker
+
+# Exposer le port 80
+EXPOSE 80
+

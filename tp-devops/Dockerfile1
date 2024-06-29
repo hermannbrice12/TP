@@ -1,0 +1,19 @@
+FROM httpd:alpine
+ARG CUSTOM_TITLE="bienvenu"
+WORKDIR /home/osadmin
+# Installer Git
+RUN apk update && apk add --no-cache git
+
+# Cloner le dépôt GitHub dans le répertoire htdocs
+RUN rm -rf /usr/local/apache2/htdocs/index.html \
+
+    && git clone https://github.com/hermannbrice12/Docker.git
+
+# Déplacer le fichier index.html (s'il existe) dans le répertoire htdocs
+# Assurez-vous que le chemin du fichier est correct
+RUN mv /home/osadmin/Docker/index.html /usr/local/apache2/htdocs/
+RUN sed -i "s/Hermann Brice/${CUSTOM_TITLE}/g" /usr/local/apache2/htdocs/index.html
+
+# Exposer le port 80
+EXPOSE 80
+
